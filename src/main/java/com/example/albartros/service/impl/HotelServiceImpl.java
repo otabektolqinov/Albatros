@@ -1,4 +1,8 @@
 package com.example.albartros.service.impl;
 
-public class HotelServiceImpl {
+import com.example.albartros.service.HotelService;
+import org.springframework.stereotype.Component;
+
+@Component
+public class HotelServiceImpl implements HotelService {
 }

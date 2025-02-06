@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("hotel")
 public class HotelController {
+
     private final HotelService hotelService;
 
 }

@@ -17,12 +17,12 @@ public class Food {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
     @Column(columnDefinition = "TEXT")
     private String description;
     @Column(columnDefinition = "TEXT")
-    private String image_url;
+    private String imageUrl;
     @ManyToOne
     private Country country;
 

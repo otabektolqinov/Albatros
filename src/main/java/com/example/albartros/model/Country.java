@@ -18,7 +18,7 @@ public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
     @ElementCollection
     @CollectionTable(name = "country_languages", joinColumns = @JoinColumn(name = "country_id"))

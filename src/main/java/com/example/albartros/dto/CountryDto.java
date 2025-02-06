@@ -11,6 +11,19 @@ import java.util.List;
 @Builder
 public class CountryDto {
 
-    private Integer id;
+    private Long id;
     private String name;
+    private String capital;
+    private List<String> languages;
+    private String currency;
+    private String timeFormat;
+    private String description;
+    private String location;
+    private String climate;
+    private List<DestinationDto> destinations;
+    private List<FactDto> facts;
+    private List<FoodDto> foods;
+    private List<HotelDto> hotels;
+    private List<MemoDto> memos;
+
 }

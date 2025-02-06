@@ -20,6 +20,7 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String capital;
     @ElementCollection
     @CollectionTable(name = "country_languages", joinColumns = @JoinColumn(name = "country_id"))
     private List<String> languages;
@@ -39,9 +40,8 @@ public class Country {
     private List<Hotel> hotels;
     @OneToMany
     private List<Memo> memos;
-
-    @ManyToOne
-    private Country country;
+    @OneToMany
+    private List<Facts> facts;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

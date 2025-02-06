@@ -1,6 +1,6 @@
-package com.example.albartros.model;
+package com.example.albartros.dto;
 
-import jakarta.persistence.*;
+import com.example.albartros.model.News;
 import lombok.*;
 
 import java.util.List;
@@ -9,17 +9,12 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 @Builder
-public class Destination {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DestinationDto {
     private Long id;
     private String name;
     private String description;
     private String image_url;
-    @ManyToOne
-    private Country country;
-    @OneToMany
+    private Long countryId;
     private List<News> newsList;
 }

@@ -34,6 +34,7 @@ public class CustomExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(HttpApiResponse.<Void>builder()
                         .message("Validation failed!")
+                        .status(HttpStatus.BAD_REQUEST)
                         .errorDto(errors)
                         .build());
     }
@@ -45,6 +46,7 @@ public class CustomExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(HttpApiResponse.<Void>builder()
                         .message(e.getMessage())
+                        .status(HttpStatus.NOT_FOUND)
                         .build());
     }
 
@@ -54,6 +56,7 @@ public class CustomExceptionHandler {
     ){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(HttpApiResponse.<Void>builder()
+                        .status(HttpStatus.BAD_REQUEST)
                         .message(e.getMessage())
                         .build());
     }

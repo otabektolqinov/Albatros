@@ -3,6 +3,7 @@ package com.example.albartros.controller;
 import com.example.albartros.dto.FoodDto;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.service.FoodService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class FoodController {
     private final FoodService foodService;
 
     @PostMapping
-    public HttpApiResponse<FoodDto> createFood(@RequestBody FoodDto dto){
+    public HttpApiResponse<FoodDto> createFood(@RequestBody @Valid FoodDto dto){
         return this.foodService.createFood(dto);
     }
 

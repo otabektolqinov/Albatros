@@ -3,6 +3,7 @@ package com.example.albartros.controller;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.dto.MemoDto;
 import com.example.albartros.service.MemoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class MemoController {
     private final MemoService memoService;
 
     @PostMapping
-    public HttpApiResponse<MemoDto> createMemo(@RequestBody MemoDto dto){
+    public HttpApiResponse<MemoDto> createMemo(@RequestBody @Valid MemoDto dto){
         return this.memoService.createMemo(dto);
     }
 

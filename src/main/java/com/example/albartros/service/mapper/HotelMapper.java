@@ -17,7 +17,7 @@ public class HotelMapper {
                 .name(hotel.getName())
                 .cityName(hotel.getCityName())
                 .starts(hotel.getStarts())
-//                .countryId(hotel.getCountry().getId())
+                .countryId(hotel.getCountry().getId())
                 .createdAt(hotel.getCreatedAt())
                 .updatedAt(hotel.getUpdatedAt())
                 .deletedAt(hotel.getDeletedAt())

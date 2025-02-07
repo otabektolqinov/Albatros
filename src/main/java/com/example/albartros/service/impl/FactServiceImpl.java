@@ -2,7 +2,11 @@ package com.example.albartros.service.impl;
 
 import com.example.albartros.dto.FactDto;
 import com.example.albartros.dto.HttpApiResponse;
+import com.example.albartros.exception.ContentNotFoundException;
+import com.example.albartros.exception.DatabaseException;
+import com.example.albartros.model.Country;
 import com.example.albartros.model.Facts;
+import com.example.albartros.repository.CountryRepository;
 import com.example.albartros.repository.FactRepository;
 import com.example.albartros.service.FactService;
 import com.example.albartros.service.mapper.FactMapper;
@@ -18,29 +22,42 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class FactServiceImpl implements FactService {
     private final FactRepository factRepository;
+    private final CountryRepository countryRepository;
     private final FactMapper factMapper;
 
     @Override
     public HttpApiResponse<FactDto> createFact(FactDto dto) {
-        //check country
+        if (!countryRepository.existsByIdAndDeletedAtIsNull(dto.getCountryId())) {
+            throw new ContentNotFoundException("Country not found");
+        }
         try {
-            return HttpApiResponse.<FactDto>builder()
-                    .status(HttpStatus.CREATED)
-                    .message("OK")
-                    .content(this.factMapper.toDto(
-                            this.factRepository.saveAndFlush(
-                                    this.factMapper.toEntity(dto))))
-                    .build();
+            Optional<Country> country = countryRepository.findByIdAndDeletedAtIsNull(dto.getCountryId());
+
+            if (country.isPresent()) {
+                Facts entity = this.factMapper.toEntity(dto);
+
+                entity.setCountry(country.get());
+
+                this.factRepository.save(entity);
+                return HttpApiResponse.<FactDto>builder()
+                        .status(HttpStatus.CREATED)
+                        .message("OK")
+                        .content(this.factMapper.toDto(entity))
+                        .build();
+            }
+            throw new ContentNotFoundException("Country not found");
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new DatabaseException("Unable to create fact");
         }
     }
 
     @Override
     public HttpApiResponse<FactDto> getFactById(Long id) {
         try {
-            if (this.factRepository.existsById(id)) {
+            if (this.factRepository.existsByIdAndDeletedAtIsNull(id)) {
+
                 Optional<Facts> optional = this.factRepository.findByIdAndDeletedAtIsNull(id);
+
                 if (optional.isPresent()) {
                     return HttpApiResponse.<FactDto>builder()
                             .status(HttpStatus.OK)
@@ -49,22 +66,17 @@ public class FactServiceImpl implements FactService {
                             .build();
                 }
             }
-            return HttpApiResponse.<FactDto>builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("Not Found")
-                    .build();
+
+            throw new ContentNotFoundException("Facts not found");
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new ContentNotFoundException("Unable to get fact by id");
         }
     }
 
     @Override
     public HttpApiResponse<List<FactDto>> getAllFacts() {
         if (this.factRepository.findAllByDeletedAtIsNull().isEmpty()) {
-            return HttpApiResponse.<List<FactDto>>builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("Facts List is empty")
-                    .build();
+            throw new ContentNotFoundException("Facts not found");
         }
         return HttpApiResponse.<List<FactDto>>builder()
                 .status(HttpStatus.OK)
@@ -76,7 +88,7 @@ public class FactServiceImpl implements FactService {
     @Override
     public HttpApiResponse<FactDto> updateFact(Long id, FactDto dto) {
         try {
-            if (this.factRepository.existsById(id)) {
+            if (this.factRepository.existsByIdAndDeletedAtIsNull(id)) {
                 Optional<Facts> optional = this.factRepository.findByIdAndDeletedAtIsNull(id);
                 if (optional.isPresent()) {
                     Facts updateFact = this.factMapper.updateFact(dto, optional.get());
@@ -88,12 +100,10 @@ public class FactServiceImpl implements FactService {
                             .build();
                 }
             }
-            return HttpApiResponse.<FactDto>builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("Not Found")
-                    .build();
+
+            throw new ContentNotFoundException("Facts not found");
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new ContentNotFoundException("Unable to get fact by id");
         }
 
     }
@@ -101,7 +111,7 @@ public class FactServiceImpl implements FactService {
     @Override
     public HttpApiResponse<String> deleteFactById(Long id) {
         try {
-            if (this.factRepository.existsById(id)) {
+            if (this.factRepository.existsByIdAndDeletedAtIsNull(id)) {
                 Optional<Facts> optional = this.factRepository.findByIdAndDeletedAtIsNull(id);
                 if (optional.isPresent()) {
                     optional.get().setDeletedAt(LocalDateTime.now());
@@ -112,12 +122,9 @@ public class FactServiceImpl implements FactService {
                             .build();
                 }
             }
-            return HttpApiResponse.<String>builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("Fact Not Found")
-                    .build();
+            throw new ContentNotFoundException("Fact not found");
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new DatabaseException("Unable to update fact by id");
         }
     }
 

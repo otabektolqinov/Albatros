@@ -21,7 +21,7 @@ public class DestinationMapper {
                 .createdAt(destination.getCreatedAt())
                 .updatedAt(destination.getUpdatedAt())
                 .deletedAt(destination.getDeletedAt())
-//                .countryId(destination.getCountry().getId())
+                .countryId(destination.getCountry().getId())
                 .build();
     }
 

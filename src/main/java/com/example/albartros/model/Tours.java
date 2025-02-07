@@ -1,6 +1,5 @@
 package com.example.albartros.model;
 
-import com.example.albartros.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,23 +13,27 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Bookings {
+public class Tours {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime bookingDate;
-    @Enumerated(EnumType.STRING)
-    private BookingStatus status;
+    private String name;
     @ManyToOne
-    private Hotel hotel;
-//    private Insurance insurance;
+    private Destination toDestination;
     @ManyToOne
-    private Agency agency;
+    private Destination fromDestination;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private Double price;
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    private String airCompany;
+    @OneToOne
+    private Discount discount;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
-
 }

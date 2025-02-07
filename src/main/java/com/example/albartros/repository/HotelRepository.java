@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
 
     Optional<Hotel> findByIdAndDeletedAtIsNull(Long id);
-
+    boolean existsByIdAndDeletedAtIsNull(Long id);
     List<Hotel> findAllByDeletedAtIsNull();
 }

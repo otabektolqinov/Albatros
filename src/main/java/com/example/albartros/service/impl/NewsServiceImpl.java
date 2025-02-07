@@ -2,6 +2,8 @@ package com.example.albartros.service.impl;
 
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.dto.NewsDto;
+import com.example.albartros.exception.ContentNotFoundException;
+import com.example.albartros.exception.DatabaseException;
 import com.example.albartros.model.Destination;
 import com.example.albartros.model.News;
 import com.example.albartros.repository.DestinationRepository;
@@ -27,13 +29,10 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public HttpApiResponse<NewsDto> createNews(NewsDto dto) {
         if (this.destinationRepository.findByIdAndDeletedAtIsNull(dto.getDestinationId()).isEmpty()) {
-            return HttpApiResponse.<NewsDto>builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("Destination not found")
-                    .build();
+            throw new ContentNotFoundException("Destination does not exist");
         }
         try {
-            Optional<Destination> optionalDestination = this.destinationRepository.findById(dto.getDestinationId());
+            Optional<Destination> optionalDestination = this.destinationRepository.findByIdAndDeletedAtIsNull(dto.getDestinationId());
             News news = this.newsMapper.toEntity(dto);
             optionalDestination.ifPresent(news::setDestination);
             return HttpApiResponse.<NewsDto>builder()
@@ -43,14 +42,14 @@ public class NewsServiceImpl implements NewsService {
                             this.newsRepository.saveAndFlush(news)))
                     .build();
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new DatabaseException("Unable to create new news");
         }
     }
 
     @Override
     public HttpApiResponse<NewsDto> getNewsById(Long id) {
         try {
-            if (this.newsRepository.existsById(id)) {
+            if (this.newsRepository.existsByIdAndDeletedAtIsNull(id)) {
                 Optional<News> optionalNews = this.newsRepository.findByIdAndDeletedAtIsNull(id);
                 if (optionalNews.isPresent()) {
                     return HttpApiResponse.<NewsDto>builder()
@@ -60,22 +59,16 @@ public class NewsServiceImpl implements NewsService {
                             .build();
                 }
             }
-            return HttpApiResponse.<NewsDto>builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("News Not Found")
-                    .build();
+            throw new ContentNotFoundException("News not found");
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new ContentNotFoundException("Unable to get new news");
         }
     }
 
     @Override
     public HttpApiResponse<List<NewsDto>> getAllNews() {
         if (this.newsRepository.findAllByDeletedAtIsNull().isEmpty()) {
-            return HttpApiResponse.<List<NewsDto>>builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("News Not Found")
-                    .build();
+            throw new ContentNotFoundException("News does not exist");
         }
         return HttpApiResponse.<List<NewsDto>>builder()
                 .status(HttpStatus.OK)
@@ -87,7 +80,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public HttpApiResponse<NewsDto> updateNewsById(Long id, NewsDto dto) {
         try {
-            if (this.newsRepository.existsById(id)) {
+            if (this.newsRepository.existsByIdAndDeletedAtIsNull(id)) {
                 Optional<News> optionalNews = this.newsRepository.findByIdAndDeletedAtIsNull(id);
                 if (optionalNews.isPresent()) {
                     News updateNews = this.newsMapper.updateNews(optionalNews.get(), dto);
@@ -99,12 +92,9 @@ public class NewsServiceImpl implements NewsService {
                             .build();
                 }
             }
-            return HttpApiResponse.<NewsDto>builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("News Not Found")
-                    .build();
+            throw new ContentNotFoundException("News not found");
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new DatabaseException("Unable to update new news");
         }
 
     }
@@ -112,7 +102,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public HttpApiResponse<String> deleteNewsById(Long id) {
         try {
-            if (this.newsRepository.existsById(id)) {
+            if (this.newsRepository.existsByIdAndDeletedAtIsNull(id)) {
                 Optional<News> optionalNews = this.newsRepository.findByIdAndDeletedAtIsNull(id);
                 if (optionalNews.isPresent()) {
                     optionalNews.get().setDeletedAt(LocalDateTime.now());
@@ -123,12 +113,9 @@ public class NewsServiceImpl implements NewsService {
                             .build();
                 }
             }
-            return HttpApiResponse.<String>builder()
-                    .status(HttpStatus.NOT_FOUND)
-                    .message("News Not Found")
-                    .build();
+            throw new ContentNotFoundException("News not found");
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new DatabaseException("Unable to delete news");
         }
 
     }

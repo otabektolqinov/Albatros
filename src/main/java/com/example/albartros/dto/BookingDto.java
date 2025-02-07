@@ -1,6 +1,8 @@
-package com.example.albartros.model;
+package com.example.albartros.dto;
 
 import com.example.albartros.enums.BookingStatus;
+import com.example.albartros.model.Agency;
+import com.example.albartros.model.Hotel;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,23 +15,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-public class Bookings {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BookingDto {
     private Long id;
     private LocalDateTime bookingDate;
-    @Enumerated(EnumType.STRING)
     private BookingStatus status;
-    @ManyToOne
-    private Hotel hotel;
-//    private Insurance insurance;
-    @ManyToOne
-    private Agency agency;
+    private Long hotelId;
+//    private Long insuranceId;
+    private Long agencyId;
 
-    @CreationTimestamp
     private LocalDateTime createdAt;
-    @UpdateTimestamp
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 

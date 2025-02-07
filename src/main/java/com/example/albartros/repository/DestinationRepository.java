@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface DestinationRepository extends JpaRepository<Destination, Long> {
 
     Optional<Destination> findByIdAndDeletedAtIsNull(Long id);
-
+    boolean existsByIdAndDeletedAtIsNull(Long id);
     List<Destination> findAllByDeletedAtIsNull();
 }

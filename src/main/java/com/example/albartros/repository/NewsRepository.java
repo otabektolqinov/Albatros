@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
     Optional<News> findByIdAndDeletedAtIsNull(Long id);
-
+    boolean existsByIdAndDeletedAtIsNull(Long id);
     List<News> findAllByDeletedAtIsNull();
 }

@@ -2,7 +2,12 @@ package com.example.albartros.service.impl;
 
 import com.example.albartros.dto.HotelDto;
 import com.example.albartros.dto.HttpApiResponse;
+import com.example.albartros.exception.ContentNotFoundException;
+import com.example.albartros.exception.CustomExceptionHandler;
+import com.example.albartros.exception.DatabaseException;
+import com.example.albartros.model.Country;
 import com.example.albartros.model.Hotel;
+import com.example.albartros.repository.CountryRepository;
 import com.example.albartros.repository.HotelRepository;
 import com.example.albartros.service.HotelService;
 import com.example.albartros.service.mapper.HotelMapper;
@@ -18,21 +23,35 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class HotelServiceImpl implements HotelService {
     private final HotelRepository hotelRepository;
+    private final CountryRepository countryRepository;
     private final HotelMapper hotelMapper;
 
     @Override
     public HttpApiResponse<HotelDto> createHotel(HotelDto dto) {
-        //check exist country
+        if (!countryRepository.existsByIdAndDeletedAtIsNull(dto.getCountryId())) {
+            throw new ContentNotFoundException("Country not found");
+        }
         try {
+            Optional<Country> country = countryRepository.findByIdAndDeletedAtIsNull(dto.getCountryId());
+            if (country.isPresent()) {
+                Hotel entity = this.hotelMapper.toEntity(dto);
+
+                entity.setCountry(country.get());
+                this.hotelRepository.save(entity);
+
+                return HttpApiResponse.<HotelDto>builder()
+                        .status(HttpStatus.CREATED)
+                        .message("Hotel created successfully")
+                        .content(this.hotelMapper.toDto(entity))
+                        .build();
+            }
             return HttpApiResponse.<HotelDto>builder()
-                    .status(HttpStatus.CREATED)
-                    .message("Hotel created successfully")
-                    .content(this.hotelMapper.toDto(
-                            this.hotelRepository.saveAndFlush(
-                                    this.hotelMapper.toEntity(dto))))
+                    .status(HttpStatus.NOT_FOUND)
+                    .message("Country not found")
                     .build();
-        } catch (Exception e) {
-            throw new RuntimeException();
+
+        } catch (DatabaseException e) {
+            throw new DatabaseException("Unable to create hotel");
         }
 
     }
@@ -40,8 +59,9 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public HttpApiResponse<HotelDto> getHotelById(Long id) {
         try {
-            if (this.hotelRepository.existsById(id)) {
+            if (this.hotelRepository.existsByIdAndDeletedAtIsNull(id)) {
                 Optional<Hotel> hotel = this.hotelRepository.findByIdAndDeletedAtIsNull(id);
+
                 if (hotel.isPresent()) {
                     return HttpApiResponse.<HotelDto>builder()
                             .status(HttpStatus.OK)
@@ -55,14 +75,14 @@ public class HotelServiceImpl implements HotelService {
                     .message("Hotel not found")
                     .build();
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new ContentNotFoundException("Hotel not found");
         }
     }
 
     @Override
     public HttpApiResponse<HotelDto> updateHotel(Long id, HotelDto dto) {
         try {
-            if (this.hotelRepository.existsById(id)) {
+            if (this.hotelRepository.existsByIdAndDeletedAtIsNull(id)) {
                 Optional<Hotel> hotel = this.hotelRepository.findByIdAndDeletedAtIsNull(id);
                 if (hotel.isPresent()) {
                     Hotel updatedHotel = this.hotelMapper.updateHotelAllField(hotel.get(), dto);
@@ -79,14 +99,14 @@ public class HotelServiceImpl implements HotelService {
                     .message("Hotel not found")
                     .build();
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new DatabaseException("Unable to update hotel");
         }
     }
 
     @Override
     public HttpApiResponse<String> deleteHotel(Long id) {
         try {
-            if (this.hotelRepository.existsById(id)) {
+            if (this.hotelRepository.existsByIdAndDeletedAtIsNull(id)) {
                 Optional<Hotel> hotel = this.hotelRepository.findByIdAndDeletedAtIsNull(id);
                 if (hotel.isPresent()) {
                     hotel.get().setDeletedAt(LocalDateTime.now());

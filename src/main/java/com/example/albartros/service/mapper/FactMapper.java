@@ -13,7 +13,7 @@ public class FactMapper {
         return FactDto.builder()
                 .id(entity.getId())
                 .description(entity.getDescription())
-//                .countryId(entity.getCountry().getId())
+                .countryId(entity.getCountry().getId())
                 .createdAt(entity.getCreatedAt())
                 .build();
     }

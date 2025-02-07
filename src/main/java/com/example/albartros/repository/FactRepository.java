@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface FactRepository extends JpaRepository<Facts, Long> {
     Optional<Facts> findByIdAndDeletedAtIsNull(Long id);
-
+    boolean existsByIdAndDeletedAtIsNull(Long id);
     List<Facts> findAllByDeletedAtIsNull();
 }

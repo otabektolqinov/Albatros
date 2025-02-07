@@ -2,6 +2,8 @@ package com.example.albartros.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -13,4 +15,8 @@ public class NewsDto {
     private String text;
     private String image_url;
     private Long destinationId;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 }

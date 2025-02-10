@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,8 +23,15 @@ public class Bookings {
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
     @ManyToOne
+    private Destination destination;
+    @ManyToOne
+    private Tours tours;
+    @ManyToOne
+    private User user;
+    @ManyToOne
     private Hotel hotel;
-//    private Insurance insurance;
+    @OneToMany
+    private List<InsurancePurchase> insuranceList;
     @ManyToOne
     private Agency agency;
 

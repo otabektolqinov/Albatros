@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +27,12 @@ public class User {
     private UserRole role;
     @OneToOne
     private Address address;
+    @OneToOne
+    private AuthUser authUser;
     @OneToMany
     private List<Tours> toursList;
+    @OneToMany
+    private List<Bookings> bookingsList;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

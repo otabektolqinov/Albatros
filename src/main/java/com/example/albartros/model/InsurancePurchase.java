@@ -1,5 +1,6 @@
 package com.example.albartros.model;
 
+import com.example.albartros.enums.InsuranceStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

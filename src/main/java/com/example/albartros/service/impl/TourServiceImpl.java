@@ -28,10 +28,10 @@ public class TourServiceImpl implements TourService {
     @Override
     public HttpApiResponse<ToursDto> createTour(ToursDto dto) {
         Destination fromDestination = destinationRepository.findByIdAndDeletedAtIsNull(
-                dto.getFromDestination()).orElseThrow(() -> new ContentNotFoundException("Destination not found"));
+                dto.getFromDestinationId()).orElseThrow(() -> new ContentNotFoundException("Destination not found"));
 
         Destination toDestination = destinationRepository.findByIdAndDeletedAtIsNull(
-                dto.getToDestination()).orElseThrow(() -> new ContentNotFoundException("Destination not found"));
+                dto.getToDestinationId()).orElseThrow(() -> new ContentNotFoundException("Destination not found"));
 
 
         Tours entity = this.tourMapper.toEntity(dto);

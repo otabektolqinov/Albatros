@@ -10,10 +10,13 @@ import com.example.albartros.repository.DestinationRepository;
 import com.example.albartros.repository.NewsRepository;
 import com.example.albartros.service.NewsService;
 import com.example.albartros.service.mapper.NewsMapper;
+import com.example.albartros.utils.FileUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,10 +27,11 @@ public class NewsServiceImpl implements NewsService {
     private final NewsRepository newsRepository;
     private final DestinationRepository destinationRepository;
     private final NewsMapper newsMapper;
+    private final FileUploadService fileUploadService;
 
 
     @Override
-    public HttpApiResponse<NewsDto> createNews(NewsDto dto) {
+    public HttpApiResponse<NewsDto> createNews(NewsDto dto, MultipartFile file) {
         if (this.destinationRepository.findByIdAndDeletedAtIsNull(dto.getDestinationId()).isEmpty()) {
             throw new ContentNotFoundException("Destination does not exist");
         }
@@ -35,6 +39,10 @@ public class NewsServiceImpl implements NewsService {
             Optional<Destination> optionalDestination = this.destinationRepository.findByIdAndDeletedAtIsNull(dto.getDestinationId());
             News news = this.newsMapper.toEntity(dto);
             optionalDestination.ifPresent(news::setDestination);
+            if (!file.isEmpty()) {
+                String fileUrl = fileUploadService.handleFileUpload(file);
+                news.setImage_url(fileUrl);
+            }
             return HttpApiResponse.<NewsDto>builder()
                     .status(HttpStatus.CREATED)
                     .message("OK")
@@ -100,6 +108,19 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    public HttpApiResponse<NewsDto> updateNewsImage(Long id, MultipartFile file) throws IOException {
+        News news = this.newsRepository.findByIdAndDeletedAtIsNull(id).orElseThrow(()
+                -> new ContentNotFoundException("News not found"));
+        String imageUrl = fileUploadService.handleFileUpload(file);
+        news.setImage_url(imageUrl);
+        return HttpApiResponse.<NewsDto>builder()
+                .status(HttpStatus.OK)
+                .message("OK")
+                .content(this.newsMapper.toDto(news))
+                .build();
+    }
+
+    @Override
     public HttpApiResponse<String> deleteNewsById(Long id) {
         try {
             if (this.newsRepository.existsByIdAndDeletedAtIsNull(id)) {
@@ -123,4 +144,5 @@ public class NewsServiceImpl implements NewsService {
     private List<News> getAllNewsList() {
         return this.newsRepository.findAllByDeletedAtIsNull();
     }
+
 }

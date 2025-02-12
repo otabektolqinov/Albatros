@@ -4,8 +4,11 @@ import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.dto.NewsDto;
 import com.example.albartros.service.NewsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -14,9 +17,11 @@ import java.util.List;
 public class NewsController {
     private final NewsService newsService;
 
-    @PostMapping
-    public HttpApiResponse<NewsDto> createNews(@RequestBody NewsDto dto) {
-        return this.newsService.createNews(dto);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public HttpApiResponse<NewsDto> createNews(
+            @RequestPart("dto") NewsDto dto,
+            @RequestPart("file") MultipartFile file) {
+        return this.newsService.createNews(dto, file);
     }
 
     @GetMapping("/{id}")
@@ -32,6 +37,11 @@ public class NewsController {
     @PutMapping("/{id}")
     public HttpApiResponse<NewsDto> updateNewsById(@PathVariable Long id, @RequestBody NewsDto dto) {
         return this.newsService.updateNewsById(id, dto);
+    }
+
+    @PutMapping("/{id}/updateImage")
+    public HttpApiResponse<NewsDto> updateNewsImage(@PathVariable Long id, @RequestBody MultipartFile file) throws IOException {
+        return this.newsService.updateNewsImage(id, file);
     }
 
     @DeleteMapping("/{id}")

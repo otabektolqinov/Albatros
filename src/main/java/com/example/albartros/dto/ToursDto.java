@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 public class ToursDto {
     private Long id;
     private String name;
-    private Long fromDestination;
-    private Long toDestination;
+    private Long fromDestinationId;
+    private Long toDestinationId;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Double price;

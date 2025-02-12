@@ -20,7 +20,7 @@ public class CountryDto {
     @NotBlank(message = "capital cannot be blank")
     @NotNull(message = "capital cannot be null")
     private String capital;
-    @NotBlank(message = "languages cannot be blank")
+//    @NotBlank(message = "languages cannot be blank")
     @NotNull(message = "languages cannot be null")
     private List<String> languages;
     @NotBlank(message = "currency cannot be blank")

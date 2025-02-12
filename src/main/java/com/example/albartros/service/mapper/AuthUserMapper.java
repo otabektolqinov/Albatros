@@ -10,6 +10,7 @@ import java.util.List;
 public abstract class AuthUserMapper {
 
     @Named("toDto")
+    @Mapping(target = "password", ignore = true)
     public abstract AuthUserDto toDto(AuthUser authUser);
 
 

@@ -21,7 +21,7 @@ public class CoverageDetails {
     @OneToOne
     private InsurancePlan insurancePlan;
     private String coverageType;
-    private Double limit;
+    private Double coverageLimit;
     @Column(columnDefinition = "TEXT")
     private String exclusions;
 

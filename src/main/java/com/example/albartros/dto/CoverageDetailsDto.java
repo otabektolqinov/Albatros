@@ -16,7 +16,7 @@ public class CoverageDetailsDto {
     private Long id;
     private Long planId;
     private String coverageType;
-    private Double limit;
+    private Double coverageLimit;
     private String exclusions;
 
 }

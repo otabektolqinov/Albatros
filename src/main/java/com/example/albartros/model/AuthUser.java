@@ -1,11 +1,13 @@
 package com.example.albartros.model;
 
+import com.example.albartros.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,6 +23,8 @@ public class AuthUser {
     private String password;
     @OneToOne
     private User user;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

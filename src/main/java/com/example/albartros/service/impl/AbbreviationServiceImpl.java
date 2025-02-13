@@ -119,7 +119,7 @@ public class AbbreviationServiceImpl implements AbbreviationService {
     @Override
     public HttpApiResponse<List<AbbreviationDto>> getAllAbbreviations() {
         try {
-            List<Abbreviation> all = abbreviationRepository.getAll();
+            List<Abbreviation> all = abbreviationRepository.findAllByDeletedAtIsNull();
             if (all.isEmpty()){
                 throw new ContentNotFoundException("Abbreviation List is empty");
             }

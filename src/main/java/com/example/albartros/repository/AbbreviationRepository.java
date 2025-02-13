@@ -10,5 +10,5 @@ import java.util.List;
 public interface AbbreviationRepository extends JpaRepository<Abbreviation, Long> {
     List<Abbreviation> findAllByCategory_Id(Long categoryId);
 
-    List<Abbreviation> getAll();
+    List<Abbreviation> findAllByDeletedAtIsNull();
 }

@@ -10,6 +10,7 @@ import com.example.albartros.service.AuthUserService;
 import com.example.albartros.service.mapper.AuthUserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import java.util.Optional;
 public class AuthUserServiceImpl implements AuthUserService {
     private final AuthUserRepository authUserRepository;
     private final AuthUserMapper authUserMapper;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Override
     public HttpApiResponse<AuthUserDto> registerAuthUser(AuthUserDto dto) {
@@ -31,6 +33,7 @@ public class AuthUserServiceImpl implements AuthUserService {
                         .message("Username is already in use")
                         .build();
             }
+            dto.setPassword(encoder.encode(dto.getPassword()));
             AuthUser authUser = this.authUserRepository.saveAndFlush(this.authUserMapper.toEntity(dto));
 
             return HttpApiResponse.<AuthUserDto>builder()

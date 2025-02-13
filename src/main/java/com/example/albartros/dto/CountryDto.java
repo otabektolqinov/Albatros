@@ -14,26 +14,19 @@ import java.util.List;
 public class CountryDto {
 
     private Long id;
-    @NotBlank(message = "name cannot be blank")
     @NotNull(message = "name cannot be null")
     private String name;
-    @NotBlank(message = "capital cannot be blank")
     @NotNull(message = "capital cannot be null")
     private String capital;
-    @NotBlank(message = "languages cannot be blank")
     @NotNull(message = "languages cannot be null")
     private List<String> languages;
-    @NotBlank(message = "currency cannot be blank")
     @NotNull(message = "currency cannot be null")
     private String currency;
-    @NotBlank(message = "timeFormat cannot be blank")
     @NotNull(message = "timeFormat cannot be null")
     private String timeFormat;
     private String description;
-    @NotBlank(message = "location cannot be blank")
     @NotNull(message = "location cannot be null")
     private String location;
-    @NotBlank(message = "climate cannot be blank")
     @NotNull(message = "climate cannot be null")
     private String climate;
     private List<DestinationDto> destinations;

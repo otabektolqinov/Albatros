@@ -3,10 +3,10 @@ package com.example.albartros.service.mapper;
 import com.example.albartros.dto.AbbreviationCategoryDto;
 import com.example.albartros.model.Abbreviation;
 import com.example.albartros.model.AbbreviationCategory;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
+import org.springframework.context.annotation.Primary;
 
+@Primary
 @Mapper(componentModel = "spring")
 public abstract class AbbreviationCategoryMapper {
 
@@ -23,5 +23,6 @@ public abstract class AbbreviationCategoryMapper {
     @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract AbbreviationCategory updateAllFields(@MappingTarget AbbreviationCategory category, AbbreviationCategoryDto dto);
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("insurance-purchase")
+@RequestMapping("insurance-purchase/")
 public class InsurancePurchaseController {
 
     private final InsurancePurchaseService purchaseService;

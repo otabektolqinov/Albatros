@@ -10,7 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("insurance-plan")
+@RequestMapping("insurance-plan/")
 public class InsurancePlanController {
 
     private final InsurancePlanService planService;

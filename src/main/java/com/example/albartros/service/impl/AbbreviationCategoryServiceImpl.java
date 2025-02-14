@@ -9,7 +9,6 @@ import com.example.albartros.repository.AbbreviationCategoryRepository;
 import com.example.albartros.service.AbbreviationCategoryService;
 import com.example.albartros.service.mapper.AbbreviationCategoryMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 

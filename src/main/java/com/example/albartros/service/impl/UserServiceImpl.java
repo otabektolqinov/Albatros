@@ -30,10 +30,14 @@ public class UserServiceImpl implements UserService {
         try {
             if (authUserRepository.findByIdAndDeletedAtIsNull(authId).isPresent()) {
                 AuthUser authUser = authUserRepository.findByIdAndDeletedAtIsNull(authId).get();
+                System.out.println("Step 1");
                 User entity = this.userMapper.toEntity(dto);
 
+                System.out.println("Step 2, set auth user");
                 entity.setAuthUser(authUser);
+                System.out.println("Step 3, role set");
                 entity.setRole(UserRole.USER);
+                System.out.println("Step 4, save");
                 this.userRepository.save(entity);
 
                 return HttpApiResponse.<UserDto>builder()

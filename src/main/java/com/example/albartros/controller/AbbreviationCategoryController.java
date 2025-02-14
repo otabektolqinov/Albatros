@@ -2,17 +2,17 @@ package com.example.albartros.controller;
 
 import com.example.albartros.dto.AbbreviationCategoryDto;
 import com.example.albartros.dto.HttpApiResponse;
-import com.example.albartros.enums.UserRole;
 import com.example.albartros.service.AbbreviationCategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("abbreviation-category")
+@RequestMapping("abbreviation-category/")
 @RestController
 public class AbbreviationCategoryController {
 
+    @Qualifier("abbreviationCategoryService")
     private final AbbreviationCategoryService categoryService;
 
     @PostMapping

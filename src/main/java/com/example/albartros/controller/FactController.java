@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("fact")
+@RequestMapping("fact/")
 public class FactController {
     private final FactService factService;
 

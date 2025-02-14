@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("abbreviation")
+@RequestMapping("abbreviation/")
 public class AbbreviationController {
 
     private final AbbreviationService abbreviationService;

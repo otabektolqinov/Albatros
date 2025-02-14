@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.albartros.service.CountryService;
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("country")
+@RequestMapping("country/")
 public class CountryController {
 
     private final CountryService countryService;

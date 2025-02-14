@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("coverage-details")
+@RequestMapping("coverage-details/")
 public class CoverageDetailsController {
 
     private final CoverageDetailsService detailsService;

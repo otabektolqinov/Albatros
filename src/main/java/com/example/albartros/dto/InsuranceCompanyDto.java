@@ -1,5 +1,6 @@
 package com.example.albartros.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
@@ -12,7 +13,9 @@ import java.util.List;
 public class InsuranceCompanyDto {
 
     private Long id;
+    @NotBlank(message = "companyName cannot be blank, empty or null")
     private String companyName;
+    @NotBlank(message = "description cannot be blank, empty or null")
     private String description;
     private List<InsurancePlanDto> planList;
 

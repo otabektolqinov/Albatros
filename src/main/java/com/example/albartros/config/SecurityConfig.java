@@ -18,6 +18,20 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private static final String[] PUBLIC_URLS = {
+            "/auth/register"
+    };
+
+    private static final String[] ADMIN_STAFF_URLS = {
+            "/news/**", "/destination/**", "/abbreviation-category/**", "/abbreviation/**", "/country/**",
+            "/agency/**", "/discount/**", "/events/**", "/fact/**", "/food/**", "/hotel/**", "/insurance-company/**",
+            "/insurance-plan/**", "/memo/**", "/tour/**", "/booking/**"
+    };
+
+    private static final String[] ADMIN_STAFF_AGENT_URLS = {
+            "/booking/**","/booking/**", "/insurance-purchase/**"
+    };
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -34,18 +48,13 @@ public class SecurityConfig {
         http.csrf(customizer -> customizer.disable());
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(authorized -> authorized
-                .requestMatchers("/auth/register").permitAll()
-                .requestMatchers(
-                        HttpMethod.POST, "news",
-                        "destination", "abbreviation-category", "abbreviation", "country", "agency", "discount", "events", "fact", "food", "hotel", "insurance-company", "insurance-plan", "memo", "tour", "booking")
-                .hasAnyRole("ADMIN", "STAFF")
-                .requestMatchers(HttpMethod.DELETE, "destination", "abbreviation-category", "abbreviation", "country", "agency", "discount", "events", "fact", "food", "hotel", "insurance-company", "insurance-plan", "memo", "tour", "booking", "news").hasAnyRole("ADMIN", "STAFF")
-                .requestMatchers(HttpMethod.PUT, "booking/", "news", "destination", "abbreviation-category", "abbreviation", "country", "agency", "discount", "events", "fact", "food", "hotel", "insurance-company", "insurance-plan", "memo", "tour").hasAnyRole("ADMIN", "STAFF")
-                .requestMatchers("booking","booking/", "insurance-purchase/").hasAnyRole("AGENT", "ADMIN", "STAFF")
+                .requestMatchers(HttpMethod.POST, PUBLIC_URLS).permitAll()
+                .requestMatchers(HttpMethod.POST, ADMIN_STAFF_URLS).hasAnyAuthority("ADMIN", "STAFF")
+                .requestMatchers(HttpMethod.DELETE, ADMIN_STAFF_URLS).hasAnyRole("ADMIN", "STAFF")
+                .requestMatchers(HttpMethod.PUT, ADMIN_STAFF_URLS).hasAnyRole("ADMIN", "STAFF")
+                .requestMatchers(ADMIN_STAFF_AGENT_URLS).hasAnyRole("AGENT", "ADMIN", "STAFF")
+                .anyRequest().authenticated()
         );
-        http.authorizeHttpRequests(authorized -> authorized.requestMatchers("/auth/register").permitAll());
-
-        http.authorizeHttpRequests(authorized -> authorized.anyRequest().authenticated());
         http.httpBasic(Customizer.withDefaults());
         return http.build();
 

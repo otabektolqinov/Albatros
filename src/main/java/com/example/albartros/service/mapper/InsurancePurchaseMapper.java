@@ -1,16 +1,14 @@
 package com.example.albartros.service.mapper;
 
-import com.example.albartros.dto.ErrorDto;
 import com.example.albartros.dto.InsurancePurchaseDto;
 import com.example.albartros.model.InsurancePurchase;
 import com.example.albartros.repository.InsurancePlanRepository;
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 
-import java.util.ArrayList;
-import java.util.List;
 
+@Primary
 @Mapper(componentModel = "spring")
 public abstract class InsurancePurchaseMapper {
 

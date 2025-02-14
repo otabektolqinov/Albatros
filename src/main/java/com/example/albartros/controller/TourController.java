@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("tour")
+@RequestMapping("tour/")
 public class TourController {
     private final TourService tourService;
 

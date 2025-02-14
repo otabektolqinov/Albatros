@@ -1,4 +1,4 @@
-package com.example.albartros.model;
+package com.example.albartros.enums;
 
 public enum InsuranceStatus {
     ACTIVE,

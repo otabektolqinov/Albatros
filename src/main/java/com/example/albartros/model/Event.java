@@ -2,6 +2,8 @@ package com.example.albartros.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,4 +25,10 @@ public class Event {
     @ElementCollection
     @CollectionTable(name = "event_photos", joinColumns = @JoinColumn(name = "event_id"))
     private List<String> photos;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 }

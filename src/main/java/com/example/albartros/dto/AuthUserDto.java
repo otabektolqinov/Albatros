@@ -1,6 +1,7 @@
 package com.example.albartros.dto;
 
 
+import com.example.albartros.enums.UserRole;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -28,7 +29,7 @@ public class AuthUserDto {
     )
     private String password;
     private Long userId;
-
+    private UserRole role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;

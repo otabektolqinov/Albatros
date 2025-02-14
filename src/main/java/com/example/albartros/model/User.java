@@ -23,12 +23,12 @@ public class User {
     private String fullName;
     private String email;
     private String phone;
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
     @OneToOne
     private Address address;
     @OneToOne
+    @JoinColumn(name = "auth_user_id", unique = true, nullable = false)
     private AuthUser authUser;
+
     @OneToMany
     private List<Tours> toursList;
     @OneToMany

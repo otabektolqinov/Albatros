@@ -11,6 +11,7 @@ public abstract class AuthUserMapper {
 
     @Named("toDto")
     @Mapping(target = "password", ignore = true)
+//    @Mapping(target = "userId", ignore = true)
     public abstract AuthUserDto toDto(AuthUser authUser);
 
 

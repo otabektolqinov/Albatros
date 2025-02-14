@@ -29,7 +29,6 @@ public class UserDto {
     private String phone;
     private UserRole role;
     private Long addressId;
-    @NotNull(message = "AuthId must not be null")
     private Long authUserId;
     private List<ToursDto> toursList;
     private List<BookingDto> bookingsList;

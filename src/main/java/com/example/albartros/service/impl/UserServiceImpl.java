@@ -28,26 +28,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public HttpApiResponse<UserDto> createUser(Long authId, UserDto dto) {
         try {
-            if (authUserRepository.findByIdAndDeletedAtIsNull(authId).isPresent()) {
-                AuthUser authUser = authUserRepository.findByIdAndDeletedAtIsNull(authId).get();
-                User entity = this.userMapper.toEntity(dto);
+            AuthUser authUser = authUserRepository.findByIdAndDeletedAtIsNull(authId)
+                    .orElseThrow(() -> new ContentNotFoundException("Auth with id " + authId + " not found"));
 
-                entity.setAuthUser(authUser);
-                entity.setRole(UserRole.USER);
-                this.userRepository.save(entity);
+            User entity = this.userMapper.toEntity(dto);
+            entity.setAuthUser(authUser);
 
-                return HttpApiResponse.<UserDto>builder()
-                        .status(HttpStatus.CREATED)
-                        .message("OK")
-                        .content(this.userMapper.toDto(entity))
-                        .build();
-            }
-            throw new ContentNotFoundException("Auth with id " + authId + " not found");
+//            authUser.setUser(entity);
+//            authUserRepository.save(authUser);
+
+            this.userRepository.save(entity);
+
+            return HttpApiResponse.<UserDto>builder()
+                    .status(HttpStatus.CREATED)
+                    .message("User created successfully")
+                    .content(this.userMapper.toDto(entity))
+                    .build();
+        } catch (ContentNotFoundException e) {
+            throw e;
         } catch (Exception e) {
-            throw new DatabaseException("Unable to create user");
+            throw new DatabaseException("Unable to create user due to internal error");
         }
-
     }
+
 
     @Override
     public HttpApiResponse<UserDto> getUserById(Long id) {
@@ -86,22 +89,6 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public HttpApiResponse<List<UserDto>> getAllStaff() {
-        try {
-            List<User> allStaff = this.userRepository.findAllByRoleAndDeletedAtIsNull(UserRole.STAFF);
-            if (!allStaff.isEmpty()) {
-                return HttpApiResponse.<List<UserDto>>builder()
-                        .status(HttpStatus.OK)
-                        .message("OK")
-                        .content(userMapper.toDtoList(allStaff))
-                        .build();
-            }
-            throw new ContentNotFoundException("Staffs not found");
-        } catch (Exception e) {
-            throw new ContentNotFoundException("Staffs not found");
-        }
-    }
 
     @Override
     public HttpApiResponse<UserDto> updateUserById(Long id, UserDto dto) {

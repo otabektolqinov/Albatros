@@ -43,7 +43,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "booking/", "news", "destination", "abbreviation-category", "abbreviation", "country", "agency", "discount", "events", "fact", "food", "hotel", "insurance-company", "insurance-plan", "memo", "tour").hasAnyRole("ADMIN", "STAFF")
                 .requestMatchers("booking","booking/", "insurance-purchase/").hasAnyRole("AGENT", "ADMIN", "STAFF")
         );
-        http.authorizeHttpRequests(authorized -> authorized.requestMatchers("/auth/register").permitAll());
+        http.authorizeHttpRequests(authorized -> authorized.requestMatchers("/auth/register",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/swagger-ui.html").permitAll());
 
         http.authorizeHttpRequests(authorized -> authorized.anyRequest().authenticated());
         http.httpBasic(Customizer.withDefaults());

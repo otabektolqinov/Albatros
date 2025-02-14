@@ -14,8 +14,6 @@ public interface UserService {
 
     HttpApiResponse<List<UserDto>> getAllUsers();
 
-    HttpApiResponse<List<UserDto>> getAllStaff();
-
     HttpApiResponse<UserDto> updateUserById(Long id, UserDto dto);
 
     HttpApiResponse<String> deleteUserById(Long id);

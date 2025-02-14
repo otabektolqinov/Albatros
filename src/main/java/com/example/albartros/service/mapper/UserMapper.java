@@ -10,6 +10,7 @@ import java.util.List;
 public abstract class UserMapper {
     @Named("toDto")
     @Mapping(target = "toursList", ignore = true)
+    @Mapping(target = "authUserId", source = "authUser.id")
     public abstract UserDto toDto(User user);
 
 

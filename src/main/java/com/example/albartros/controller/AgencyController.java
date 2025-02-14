@@ -4,6 +4,7 @@ import com.example.albartros.dto.AgencyDto;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.dto.ToursDto;
 import com.example.albartros.service.AgencyService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class AgencyController {
     }
 
     @PutMapping("/{id}")
-    public HttpApiResponse<AgencyDto> updateTours(@PathVariable Long id, @RequestBody AgencyDto dto) {
+    public HttpApiResponse<AgencyDto> updateTours(@PathVariable Long id, @RequestBody @Valid AgencyDto dto) {
         return this.agencyService.updateTourById(id, dto);
     }
 

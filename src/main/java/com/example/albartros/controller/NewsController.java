@@ -3,6 +3,7 @@ package com.example.albartros.controller;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.dto.NewsDto;
 import com.example.albartros.service.NewsService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class NewsController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public HttpApiResponse<NewsDto> createNews(
-            @RequestPart("dto") NewsDto dto,
+            @Valid @RequestPart("dto") NewsDto dto,
             @RequestPart("file") MultipartFile file) {
         return this.newsService.createNews(dto, file);
     }

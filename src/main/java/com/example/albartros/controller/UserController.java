@@ -3,6 +3,7 @@ package com.example.albartros.controller;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.dto.UserDto;
 import com.example.albartros.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/{authId}")
-    public HttpApiResponse<UserDto> createUser(@PathVariable(value = "authId") Long authId, @RequestBody UserDto dto) {
+    public HttpApiResponse<UserDto> createUser(@PathVariable(value = "authId") Long authId,
+                                               @RequestBody @Valid UserDto dto) {
         return this.userService.createUser(authId, dto);
     }
 

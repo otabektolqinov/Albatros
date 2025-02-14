@@ -3,6 +3,7 @@ package com.example.albartros.controller;
 import com.example.albartros.dto.AuthUserDto;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.service.AuthUserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class AuthUserController {
     private final AuthUserService authUserService;
 
     @PostMapping("/register")
-    public HttpApiResponse<AuthUserDto> registerAuthUser(@RequestBody AuthUserDto dto) {
+    public HttpApiResponse<AuthUserDto> registerAuthUser(@RequestBody @Valid AuthUserDto dto) {
         return this.authUserService.registerAuthUser(dto);
     }
 

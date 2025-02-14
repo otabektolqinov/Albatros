@@ -3,6 +3,7 @@ package com.example.albartros.controller;
 import com.example.albartros.dto.FactDto;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.service.FactService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class FactController {
     private final FactService factService;
 
     @PostMapping
-    public HttpApiResponse<FactDto> createFact(@RequestBody FactDto dto) {
+    public HttpApiResponse<FactDto> createFact(@RequestBody @Valid FactDto dto) {
         return this.factService.createFact(dto);
     }
 

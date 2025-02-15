@@ -1,5 +1,5 @@
 package com.example.albartros.enums;
 
 public enum UserRole {
-    ADMIN, AGENT, USER, STAFF
+    USER, STAFF, ADMIN, AGENT
 }

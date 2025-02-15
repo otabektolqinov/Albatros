@@ -27,7 +27,6 @@ public class UserDto {
     @NotBlank(message = "Phone must not be blank")
     @NotEmpty(message = "Phone must not be empty")
     private String phone;
-    private UserRole role;
     private Long addressId;
     private Long authUserId;
     private List<ToursDto> toursList;

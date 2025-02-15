@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("news")
+@RequestMapping("news/")
 public class NewsController {
     private final NewsService newsService;
 

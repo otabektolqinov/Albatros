@@ -1,5 +1,6 @@
 package com.example.albartros.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.List;
 public class EventDto {
 
     private Long id;
+    @NotBlank(message = "title cannot be empty, null or blank")
     private String title;
     private LocalDate startDate;
     private LocalDate endDate;

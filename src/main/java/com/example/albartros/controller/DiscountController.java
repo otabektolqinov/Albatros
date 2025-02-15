@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("discount")
+@RequestMapping("discount/")
 public class DiscountController {
     private final DiscountService discountService;
 

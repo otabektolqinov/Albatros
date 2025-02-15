@@ -6,9 +6,11 @@ import com.example.albartros.repository.InsurancePlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 
 import java.util.List;
 
+@Primary
 @Mapper(componentModel = "spring")
 public abstract class InsuranceCompanyMapper {
 

@@ -9,7 +9,6 @@ import com.example.albartros.repository.AbbreviationCategoryRepository;
 import com.example.albartros.service.AbbreviationCategoryService;
 import com.example.albartros.service.mapper.AbbreviationCategoryMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +43,7 @@ public class AbbreviationCategoryServiceImpl implements AbbreviationCategoryServ
         try {
             Optional<AbbreviationCategory> category = categoryRepository.findByIdAndDeletedAtIsNull(id);
             if (category.isEmpty()) {
-                throw new ContentNotFoundException(String.format("Abbreviation Category with %d id", id));
+                throw new ContentNotFoundException(String.format("Abbreviation Category with %d id is not found", id));
             }
 
             AbbreviationCategoryDto dto = categoryMapper.toDto(category.get());

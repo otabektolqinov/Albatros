@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("agency")
+@RequestMapping("agency/")
 public class AgencyController {
     private final AgencyService agencyService;
 

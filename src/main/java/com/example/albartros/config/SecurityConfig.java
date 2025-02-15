@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private static final String[] PUBLIC_URLS = {
-            "/auth/register"
+            "/auth/register", "/swagger-ui/**", "/v3/api/docs/**"
     };
 
     private static final String[] ADMIN_STAFF_URLS = {

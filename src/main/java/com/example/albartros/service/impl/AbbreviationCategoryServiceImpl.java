@@ -43,7 +43,7 @@ public class AbbreviationCategoryServiceImpl implements AbbreviationCategoryServ
         try {
             Optional<AbbreviationCategory> category = categoryRepository.findByIdAndDeletedAtIsNull(id);
             if (category.isEmpty()) {
-                throw new ContentNotFoundException(String.format("Abbreviation Category with %d id", id));
+                throw new ContentNotFoundException(String.format("Abbreviation Category with %d id is not found", id));
             }
 
             AbbreviationCategoryDto dto = categoryMapper.toDto(category.get());

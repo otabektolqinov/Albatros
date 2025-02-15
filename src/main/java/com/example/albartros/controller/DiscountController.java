@@ -3,6 +3,7 @@ package com.example.albartros.controller;
 import com.example.albartros.dto.DiscountDto;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.service.DiscountService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class DiscountController {
     private final DiscountService discountService;
 
     @PostMapping
-    public HttpApiResponse<DiscountDto> createDiscount(@RequestBody DiscountDto dto) {
+    public HttpApiResponse<DiscountDto> createDiscount(@RequestBody @Valid DiscountDto dto) {
         return this.discountService.createDiscount(dto);
     }
 

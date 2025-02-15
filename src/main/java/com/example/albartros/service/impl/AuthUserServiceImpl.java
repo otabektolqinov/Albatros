@@ -2,6 +2,7 @@ package com.example.albartros.service.impl;
 
 import com.example.albartros.dto.AuthUserDto;
 import com.example.albartros.dto.HttpApiResponse;
+import com.example.albartros.enums.UserRole;
 import com.example.albartros.exception.ContentNotFoundException;
 import com.example.albartros.exception.DatabaseException;
 import com.example.albartros.model.AuthUser;
@@ -34,6 +35,7 @@ public class AuthUserServiceImpl implements AuthUserService {
                         .build();
             }
             dto.setPassword(encoder.encode(dto.getPassword()));
+            dto.setRole(UserRole.USER);
             AuthUser authUser = this.authUserRepository.saveAndFlush(this.authUserMapper.toEntity(dto));
 
             return HttpApiResponse.<AuthUserDto>builder()
@@ -117,6 +119,23 @@ public class AuthUserServiceImpl implements AuthUserService {
             throw new ContentNotFoundException("User not found");
         } catch (Exception e) {
             throw new DatabaseException("Unable to update user");
+        }
+    }
+
+    @Override
+    public HttpApiResponse<AuthUserDto> updateRoleById(Long id, AuthUserDto dto) {
+        try {
+            AuthUser authUser = authUserRepository.findByIdAndDeletedAtIsNull(id).orElseThrow(
+                    () -> new ContentNotFoundException("Auth not found"));
+            AuthUser updateAuthUser = this.authUserMapper.updateAuthUser(authUser, dto);
+            authUserRepository.saveAndFlush(updateAuthUser);
+            return HttpApiResponse.<AuthUserDto>builder()
+                    .status(HttpStatus.OK)
+                    .message("Successfully updated")
+                    .content(this.authUserMapper.toDto(updateAuthUser))
+                    .build();
+        } catch (Exception e) {
+            throw new DatabaseException("Unable to update role");
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.albartros.controller;
 import com.example.albartros.dto.BookingDto;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.service.BookingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,8 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping("/{userId}")
-    public HttpApiResponse<BookingDto> createBookingByUser(@PathVariable Long userId, @RequestBody BookingDto dto) {
+    public HttpApiResponse<BookingDto> createBookingByUser(@PathVariable Long userId,
+                                                           @RequestBody @Valid BookingDto dto) {
         return this.bookingService.createBookingByUser(userId, dto);
     }
 

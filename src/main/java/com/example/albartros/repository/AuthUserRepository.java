@@ -1,6 +1,8 @@
 package com.example.albartros.repository;
 
+import com.example.albartros.enums.UserRole;
 import com.example.albartros.model.AuthUser;
+import com.example.albartros.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,8 @@ public interface AuthUserRepository extends JpaRepository<AuthUser, Long> {
     Optional<AuthUser> findByIdAndDeletedAtIsNull(Long id);
 
     List<AuthUser> findAllByDeletedAtIsNull();
+
+    List<AuthUser> findAllByRoleAndDeletedAtIsNull(UserRole userRole);
 
 
 }

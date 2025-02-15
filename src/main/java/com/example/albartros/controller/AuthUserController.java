@@ -2,8 +2,12 @@ package com.example.albartros.controller;
 
 import com.example.albartros.dto.AuthUserDto;
 import com.example.albartros.dto.HttpApiResponse;
+import com.example.albartros.dto.UserDto;
 import com.example.albartros.service.AuthUserService;
+import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +19,7 @@ public class AuthUserController {
     private final AuthUserService authUserService;
 
     @PostMapping("/register")
-    public HttpApiResponse<AuthUserDto> registerAuthUser(@RequestBody AuthUserDto dto) {
+    public HttpApiResponse<AuthUserDto> registerAuthUser(@RequestBody @Valid AuthUserDto dto) {
         return this.authUserService.registerAuthUser(dto);
     }
 
@@ -34,6 +38,11 @@ public class AuthUserController {
         return this.authUserService.getAllAuthUsers();
     }
 
+    @GetMapping("/getAllStaff")
+    public HttpApiResponse<List<UserDto>> getAllStaff() {
+        return null;
+    }
+
     @PutMapping("/{id}")
     public HttpApiResponse<AuthUserDto> updateAuthUser(@PathVariable Long id, @RequestBody AuthUserDto dto) {
         return this.authUserService.updateAuthUserById(id, dto);
@@ -42,6 +51,14 @@ public class AuthUserController {
     @DeleteMapping("/{id}")
     public HttpApiResponse<String> deleteAuthUserById(@PathVariable Long id) {
         return this.authUserService.deleteAuthUserById(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("setRole/{id}")
+    public HttpApiResponse<AuthUserDto> setRole(@PathVariable Long id,
+                                                @RequestBody AuthUserDto dto) {
+        return this.authUserService.updateRoleById(id, dto);
+
     }
 
 }

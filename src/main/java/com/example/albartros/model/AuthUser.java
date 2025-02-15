@@ -21,8 +21,9 @@ public class AuthUser {
     private Long id;
     private String username;
     private String password;
-    @OneToOne
+    @OneToOne(mappedBy = "authUser", cascade = CascadeType.ALL)
     private User user;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 

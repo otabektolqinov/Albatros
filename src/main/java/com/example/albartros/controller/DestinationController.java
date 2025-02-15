@@ -3,6 +3,7 @@ package com.example.albartros.controller;
 import com.example.albartros.dto.DestinationDto;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.service.DestinationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class DestinationController {
     private final DestinationService destinationService;
 
     @PostMapping
-    public HttpApiResponse<DestinationDto> createDestination(@RequestBody DestinationDto dto) {
+    public HttpApiResponse<DestinationDto> createDestination(@RequestBody @Valid DestinationDto dto) {
         return this.destinationService.createDestination(dto);
     }
 

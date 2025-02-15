@@ -1,5 +1,6 @@
 package com.example.albartros.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,9 @@ import java.time.LocalDateTime;
 @Builder
 public class NewsDto {
     private Long id;
+    @NotNull(message = "Headline must not be null")
     private String headline;
+    @NotNull(message = "Description must not be null")
     private String text;
     private String image_url;
     private Long destinationId;

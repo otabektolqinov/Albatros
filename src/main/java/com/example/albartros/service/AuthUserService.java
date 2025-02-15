@@ -19,4 +19,6 @@ public interface AuthUserService {
     HttpApiResponse<String> deleteAuthUserById(Long id);
 
     HttpApiResponse<List<AuthUserDto>> getAllAuthUsers();
+
+    HttpApiResponse<AuthUserDto> updateRoleById(Long id, AuthUserDto dto);
 }

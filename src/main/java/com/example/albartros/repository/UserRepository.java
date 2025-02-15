@@ -16,6 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByDeletedAtIsNull();
 
-    List<User> findAllByRoleAndDeletedAtIsNull(UserRole userRole);
+
 
 }

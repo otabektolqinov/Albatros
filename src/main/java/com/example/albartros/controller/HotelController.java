@@ -3,6 +3,7 @@ package com.example.albartros.controller;
 import com.example.albartros.dto.HotelDto;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.service.HotelService;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class HotelController {
     private final HotelService hotelService;
 
     @PostMapping
-    public HttpApiResponse<HotelDto> createHotel(@RequestBody HotelDto dto) {
+    public HttpApiResponse<HotelDto> createHotel(@RequestBody @Valid HotelDto dto) {
         return this.hotelService.createHotel(dto);
     }
 

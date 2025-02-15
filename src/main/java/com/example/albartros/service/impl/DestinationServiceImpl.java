@@ -1,5 +1,6 @@
 package com.example.albartros.service.impl;
 
+import com.example.albartros.config.S3Service;
 import com.example.albartros.dto.DestinationDto;
 import com.example.albartros.dto.HttpApiResponse;
 import com.example.albartros.exception.ContentNotFoundException;
@@ -13,10 +14,13 @@ import com.example.albartros.service.mapper.DestinationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -24,6 +28,7 @@ public class DestinationServiceImpl implements DestinationService {
     private final DestinationRepository destinationRepository;
     private final CountryRepository countryRepository;
     private final DestinationMapper destinationMapper;
+    private final S3Service s3Service;
 
 
     @Override
@@ -148,4 +153,6 @@ public class DestinationServiceImpl implements DestinationService {
     public List<Destination> getAllDestinationList() {
         return this.destinationRepository.findAllByDeletedAtIsNull();
     }
+
+
 }
